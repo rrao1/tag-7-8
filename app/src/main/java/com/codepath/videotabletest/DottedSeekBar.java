@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.widget.SeekBar;
 
 /**
@@ -87,14 +85,14 @@ public class DottedSeekBar extends SeekBar {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-        Log.d("I was touched", "Yes");
-        if (x >= mDotsPositions[0] && x < (mDotsPositions[0] + mDotBitmap.getWidth())) {
-            Log.d("I was touched", "You touched to dot");
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        float x = event.getX();
+//        float y = event.getY();
+//        Log.d("I was touched", "Yes");
+//        if (x >= mDotsPositions[0] && x < (mDotsPositions[0] + mDotBitmap.getWidth())) {
+//            Log.d("I was touched", "You touched to dot");
+//        }
+//        return true;
+//    }
 }

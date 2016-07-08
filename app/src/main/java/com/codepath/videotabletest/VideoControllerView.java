@@ -527,6 +527,7 @@ public class VideoControllerView extends FrameLayout {
                 progress = (progress/stepSize)*stepSize;
                 bar.setProgress(progress);
 
+
                 TextView sliderText = (TextView) findViewById(R.id.textView);
                 sliderText.setText("" + progress);
             }
@@ -549,6 +550,17 @@ public class VideoControllerView extends FrameLayout {
             setProgress();
             updatePausePlay();
             show(sDefaultTimeout);
+
+
+            Log.d("debug", "touched");
+
+
+            int i = mPlayer.getCurrentPosition();
+            Log.d("number", i/1000 + "");
+            if (i / 1000 == 3) {
+                //Log.d("debugger", "3 seconds");
+            }
+            //Log.d("position", i+"");
 
             // Ensure that progress is properly updated in the future,
             // the call to show() does not guarantee this because it is a
