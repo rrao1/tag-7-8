@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class AddingTagsActivity extends Activity implements SurfaceHolder.Callba
 
     SurfaceView videoSurface;
     MediaPlayer player;
+    List<Integer> tagTimes = new ArrayList<>();
+    int[] positions;
     com.codepath.videotabletest.VideoControllerView controller;
     //Uri selectedImage;
 
@@ -47,6 +50,8 @@ public class AddingTagsActivity extends Activity implements SurfaceHolder.Callba
         videoId = databaseHelper.getVideoID(uriStr);
         video = databaseHelper.getVideo(videoId);
         RunVideo(uri);
+        //databaseHelper.deleteAllVidTagsAndVideos();
+        displayTags();
 //        selectedImage = Uri.parse(getIntent().getStringExtra("VideoUri"));
 //        RunVideo(selectedImage);
     }
@@ -170,6 +175,26 @@ public class AddingTagsActivity extends Activity implements SurfaceHolder.Callba
 
     }
 
+    public void displayTags() {
+        List<VidTag> associatedTags = databaseHelper.getAssociatedVidTags(video);
+        for(int i = 0; i < associatedTags.size(); i ++) {
+            tagTimes.add(associatedTags.get(i).time);
+        }
+        if (tagTimes.size() > 0) {
+            controller.setDots(tagTimes);
+        }
+
+//        int numberOfTags = associatedTags.size();
+//        positions = new int[numberOfTags];
+//        for (int i = 0; i < numberOfTags; i++) {
+//            positions[i] = (associatedTags.get(i)).time;
+//        }
+//        if (numberOfTags > 0) {
+//            controller.setDots(positions);
+//        }
+
+    }
+
     public void addTag(View view) {
         EditText etTagName =(EditText) findViewById(R.id.etTagName);
         String tagName = etTagName.getText().toString();
@@ -180,21 +205,22 @@ public class AddingTagsActivity extends Activity implements SurfaceHolder.Callba
         double dotValue = (Tagtime/(Duration/10))*100;
         VidTag vidTag = new VidTag();
         vidTag.label = tagName;
-        vidTag.time = (int) Tagtime;
+        //TODO DOTVALUE TIME
+        vidTag.time = (int) dotValue;
         vidTag.video = video;
-        Log.d("label", vidTag.label);
-        Log.d("time", vidTag.time + "");
-        Log.d("video uri", vidTag.video.uri);
         databaseHelper.deleteAllVidTagsAndVideos();
         databaseHelper.addVidTag(vidTag);
+        tagTimes.add((int) dotValue);
+        //int sizeOfNewArray = positions.length + 1;
+//        int[] addedTagArray = new int[sizeOfNewArray];
+//        for (int i = 0; i < sizeOfNewArray - 1; i++) {
+//            addedTagArray[i] = positions[i];
+//        }
+//        addedTagArray[sizeOfNewArray - 1] = (int) dotValue;
+        //int[] newArray = new int[1];
+        //newArray[0] = (int) dotValue;
 
-        List<VidTag> vidTags = databaseHelper.getAllVidTags();
-        for (VidTag vidTag1 : vidTags) {
-            Log.d("label", vidTag1.label);
-            Log.d("time", vidTag1.time + "");
-            Log.d("video uri", vidTag1.video.uri);
-        }
-        controller.setDots((int) dotValue);
+        controller.setDots(tagTimes);
     }
 
 // End VideoMediaController.MediaPlayerControl

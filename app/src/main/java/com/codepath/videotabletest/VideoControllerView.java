@@ -18,8 +18,6 @@
 
 package com.codepath.videotabletest;
 
-import android.widget.FrameLayout;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -40,10 +38,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.codepath.videotabletest.R;
-
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -134,6 +131,7 @@ public class VideoControllerView extends FrameLayout {
     public void onFinishInflate() {
         if (mRoot != null)
             initControllerView(mRoot);
+        super.onFinishInflate();
     }
 
     public void setMediaPlayer(MediaPlayerControl player) {
@@ -233,9 +231,13 @@ public class VideoControllerView extends FrameLayout {
         installPrevNextListeners();
     }
 
-    public void setDots(int num){
+    public void setDots(List<Integer> tagTimes){
         //add if statement
-        seeker.setDots(new int[]{num});
+        int[] positions = new int[tagTimes.size()];
+        for (int i = 0; i < positions.length; i++) {
+            positions[i] = tagTimes.get(i);
+        }
+        seeker.setDots(positions);
     }
 
     /**
@@ -680,8 +682,6 @@ public class VideoControllerView extends FrameLayout {
         boolean isFullScreen();
         void    toggleFullScreen();
     }
-
-
 
     private static class MessageHandler extends Handler {
         private final WeakReference<VideoControllerView> mView;
