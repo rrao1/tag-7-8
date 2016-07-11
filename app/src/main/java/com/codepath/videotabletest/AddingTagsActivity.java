@@ -196,21 +196,41 @@ public class AddingTagsActivity extends Activity implements SurfaceHolder.Callba
     }
 
     public void addTag(View view) {
+        pause();
+        controller.updatePausePlay();
+
         EditText etTagName =(EditText) findViewById(R.id.etTagName);
         String tagName = etTagName.getText().toString();
         int duration = Toast.LENGTH_SHORT;
         Toast.makeText(getApplicationContext(), tagName,duration).show();
+
         double Duration = getDuration();
-        double Tagtime = getCurrentPosition();
+        int Tagtime = (int) getCurrentPosition();
         double dotValue = (Tagtime/(Duration/10))*100;
         VidTag vidTag = new VidTag();
         vidTag.label = tagName;
+        Log.d("dotValue", dotValue+"");
+        Log.d("time", (int) (Tagtime / 1000) +"");
+        Log.d("time1", Tagtime+"");
         //TODO DOTVALUE TIME
         vidTag.time = (int) dotValue;
         vidTag.video = video;
         databaseHelper.deleteAllVidTagsAndVideos();
         databaseHelper.addVidTag(vidTag);
         tagTimes.add((int) dotValue);
+//        double Duration = getDuration();
+//        double Tagtime = getCurrentPosition();
+//        double dotValue = (Tagtime/(Duration/10))*100;
+//        VidTag vidTag = new VidTag();
+//        vidTag.label = tagName;
+//        Log.d("dotValue", dotValue+"");
+//        Log.d("time", (int) (Tagtime / 1000) +"");
+//        //TODO DOTVALUE TIME
+//        vidTag.time = (int) dotValue;
+//        vidTag.video = video;
+//        databaseHelper.deleteAllVidTagsAndVideos();
+//        databaseHelper.addVidTag(vidTag);
+//        tagTimes.add((int) dotValue);
         //int sizeOfNewArray = positions.length + 1;
 //        int[] addedTagArray = new int[sizeOfNewArray];
 //        for (int i = 0; i < sizeOfNewArray - 1; i++) {
